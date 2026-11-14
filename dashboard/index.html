@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied launch value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">&#9678;</div>
+    <div>
+      <h1>TOKEN RADAR</h1>
+      <p class="subtitle">Pre-token protocols, ranked by what a launch would be worth.</p>
+    </div>
+  </div>
+  <div class="snapshot" id="snapshotLine">Snapshot loading…</div>
+</header>
+
+<section class="stats" id="statsBar" aria-label="Board totals"></section>
+
+<section class="controls" aria-label="Filters">
+  <input id="q" type="search" placeholder="Search a protocol…" autocomplete="off">
+  <select id="category" aria-label="Category"></select>
+  <select id="chain" aria-label="Chain"></select>
+  <select id="sort" aria-label="Sort by">
+    <option value="value">Sort: implied value ↓</option>
+    <option value="tvl">Sort: TVL ↓</option>
+    <option value="growth">Sort: 7-day change ↓</option>
+    <option value="age">Sort: oldest first</option>
+    <option value="name">Sort: name A–Z</option>
+  </select>
+  <label class="toggle"><input id="watchlistOnly" type="checkbox"> Watchlist only</label>
+  <button id="reset" type="button">Reset</button>
+</section>
+
+<main>
+  <table class="board" id="board">
+    <thead>
+      <tr>
+        <th class="num">#</th>
+        <th>Protocol</th>
+        <th>Category</th>
+        <th>Chains</th>
+        <th class="num">TVL</th>
+        <th class="num">7d</th>
+        <th class="num">Implied value</th>
+        <th class="bar-col">Share</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p class="count" id="rowCount"></p>
+
+  <section class="detail" id="detail" hidden aria-label="Protocol detail"></section>
+
+  <section class="excluded" aria-label="Protocols left off the board">
+    <h2>Left off the board, on purpose</h2>
+    <p class="note">These are the biggest pre-token names in the snapshot. None of them is a launch
+    candidate: exchanges will never issue a protocol token, and bridges and staked products are
+    a token that already trades, moved somewhere else. Large names the house left off its
+    watchlist are left off here too: the snapshot cannot show whether they are a sub-product
+    of another protocol. Ranking them would be ranking the wrong thing.</p>
+    <ul id="excludedList" class="excluded-list"></ul>
+  </section>
+
+  <section class="method" aria-label="How the ranking works">
+    <h2>How the ranking works</h2>
+    <p class="formula">implied value = TVL × sector multiple × growth × maturity × breadth × size</p>
+    <p>The sector multiple is the median market-cap-to-TVL of the tokenised protocols in the same
+    category, taken from this very snapshot. Growth counts at half its face value and is capped.
+    Maturity caps at two years of track record. Breadth caps at six chains. Size is sublinear:
+    doubling TVL lifts implied value by less than double. Market cap here is circulating cap,
+    not fully diluted value, so the read is conservative.</p>
+    <table class="comps" id="compTable">
+      <thead><tr><th>Category</th><th class="num">Priced comps</th><th class="num">Median mcap / TVL</th></tr></thead>
+      <tbody id="compRows"></tbody>
+    </table>
+    <p class="fine">Data: DefiLlama protocol snapshot, frozen at the date above. No network is used:
+    every byte on this page ships with it.</p>
+  </section>
+</main>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
